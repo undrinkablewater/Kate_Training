@@ -44,7 +44,13 @@
   --mono:ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace;
   --maxw:37rem;
   --wide:52rem;
+  /* horizontal gutter: one token drives every edge in the document */
+  --gut:1.15rem;
+  --gut-l:calc(var(--gut) + env(safe-area-inset-left, 0px));
+  --gut-r:calc(var(--gut) + env(safe-area-inset-right, 0px));
 }
+/* phones: more breathing room at the edges */
+@media (max-width:700px){ :root{ --gut:1.45rem; } }
 html[data-theme="dark"]{
   --bg:#131519;
   --bg-alt:#1a1d22;
@@ -84,11 +90,11 @@ body{
   background:color-mix(in srgb,var(--bg) 88%,transparent);
   backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);
   border-bottom:1px solid var(--rule);
-  padding-top:env(safe-area-inset-top);
+  padding-top:env(safe-area-inset-top, 0px);
 }
 #topbar .row{
   max-width:var(--wide);margin:0 auto;display:flex;align-items:center;gap:.5rem;
-  padding:.5rem .85rem;font-family:var(--sans);
+  padding:.5rem var(--gut-r) .5rem var(--gut-l);font-family:var(--sans);
 }
 .tb-btn{
   appearance:none;border:1px solid var(--rule-strong);background:transparent;color:var(--ink);
@@ -115,7 +121,7 @@ body{
   position:absolute;top:0;bottom:0;left:0;width:min(92vw,25rem);
   background:var(--surface);border-right:1px solid var(--rule);
   box-shadow:var(--shadow-lg);overflow-y:auto;-webkit-overflow-scrolling:touch;
-  padding:calc(env(safe-area-inset-top) + 1.1rem) 1.1rem 3rem;
+  padding:calc(env(safe-area-inset-top, 0px) + 1.1rem) 1.1rem 3rem calc(1.1rem + env(safe-area-inset-left, 0px));
   animation:slideIn .22s cubic-bezier(.2,.7,.3,1);
 }
 @keyframes slideIn{from{transform:translateX(-100%)}to{transform:translateX(0)}}
@@ -136,12 +142,12 @@ body{
 /* ============================================================
    LAYOUT
    ============================================================ */
-main{padding-top:calc(env(safe-area-inset-top) + 3.3rem)}
+main{padding-top:calc(env(safe-area-inset-top, 0px) + 3.3rem)}
 .module{display:none}
 .module.active{display:block;animation:fade .3s ease}
 @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.wrap{max-width:var(--maxw);margin:0 auto;padding:0 1.15rem}
-.wrap-wide{max-width:var(--wide);margin:0 auto;padding:0 1.15rem}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--gut-l);padding-right:var(--gut-r)}
+.wrap-wide{max-width:var(--wide);margin:0 auto;padding-left:var(--gut-l);padding-right:var(--gut-r)}
 
 /* ============================================================
    TYPE
@@ -279,7 +285,7 @@ figcaption{font:500 .78rem/1.5 var(--sans);color:var(--muted);margin-top:.65rem;
 
 /* nav footer */
 .mnav{
-  max-width:var(--maxw);margin:3.2rem auto 0;padding:1.6rem 1.15rem calc(env(safe-area-inset-bottom) + 3.2rem);
+  max-width:var(--maxw);margin:3.2rem auto 0;padding:1.6rem var(--gut-r) calc(env(safe-area-inset-bottom, 0px) + 3.2rem) var(--gut-l);
   border-top:1px solid var(--rule);display:flex;gap:.6rem;align-items:stretch;
 }
 .mnav button{
@@ -311,7 +317,7 @@ figcaption{font:500 .78rem/1.5 var(--sans);color:var(--muted);margin-top:.65rem;
 .contents-list li{border-bottom:1px solid var(--rule);margin:0}
 .contents-list button{
   width:100%;text-align:left;background:transparent;border:0;cursor:pointer;color:var(--ink);
-  padding:.95rem .25rem;display:flex;gap:.85rem;align-items:baseline;font-family:var(--sans);
+  padding:.95rem 0;display:flex;gap:.85rem;align-items:baseline;font-family:var(--sans);
 }
 .contents-list button:hover{background:var(--bg-alt)}
 .contents-list .n{font:700 .72rem/1.4 var(--mono);color:var(--faint);flex:0 0 1.9rem}
